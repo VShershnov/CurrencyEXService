@@ -8,16 +8,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
-import com.vshershnov.CurrencyEXService.service.CurrencyPairService;
 
 /**
  * Handles requests for the application home page.
@@ -63,8 +61,16 @@ public class CurrencyPairController {
 		curPair.setId(9999);
 		curPair.setName("Dummy");
 		curPair.setCreatedDate(new Date());
+		curPair.setRate(2875);
+		curPair.setSource("nbu.gov.ua");
 		curData.put(9999, curPair);
 		return curPair;
 	}
 	
+	@RequestMapping(value = "/currencyPair/{id}", method = RequestMethod.GET)
+	public @ResponseBody CurrencyPair getCurrencyPair(@PathVariable("id") int curId) {
+		logger.info("Start getCurrencyPair.id="+ curId);
+		
+		return curData.get(curId);
+	}
 }

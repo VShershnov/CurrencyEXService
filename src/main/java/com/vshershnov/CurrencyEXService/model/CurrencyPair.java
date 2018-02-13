@@ -3,8 +3,10 @@ package com.vshershnov.CurrencyEXService.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CurrencyPair implements Serializable{
-	
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+
+public class CurrencyPair implements Serializable{	
 	
 	private static final long serialVersionUID = 6789541185994526799L;
 
@@ -15,6 +17,8 @@ public class CurrencyPair implements Serializable{
 	private Integer rate;
 	
 	private Date createdDate;
+	
+	private String source;
 	
 	public int getId() {
 		return id;
@@ -40,12 +44,21 @@ public class CurrencyPair implements Serializable{
 		this.rate = rate;
 	}	
 	
+	@JsonSerialize(using=DateSerializer.class)
 	public Date getCreatedDate() {
 		return createdDate;
 	}	
 	
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}	
+	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	@Override
@@ -53,5 +66,4 @@ public class CurrencyPair implements Serializable{
 		return "CurrencyPair [id=" + id + ", name=" + name + ", rate=" + rate
 				+ ", createdDate=" + createdDate + "]";
 	}
-
 }
