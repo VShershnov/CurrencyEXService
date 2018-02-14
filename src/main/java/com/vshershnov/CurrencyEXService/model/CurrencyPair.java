@@ -12,13 +12,17 @@ public class CurrencyPair implements Serializable{
 
 	private int id;
 	
-	private String name;
+	private String fromCurr;
+	
+	private String toCurr;
+	
+	private String rateTime;
 	
 	private Integer rate;
 	
 	private Date createdDate;
 	
-	private String source;
+	private String sourceID;
 	
 	public int getId() {
 		return id;
@@ -26,16 +30,32 @@ public class CurrencyPair implements Serializable{
 	
 	public void setId(int id) {
 		this.id = id;
+	}	
+	
+	public String getToCurr() {
+		return toCurr;
+	}
+
+	public void setToCurr(String toCurr) {
+		this.toCurr = toCurr;
+	}
+
+	public String getFromCurr() {
+		return fromCurr;
 	}
 	
-	public String getName() {
-		return name;
+	public void setFromCurr(String name) {
+		this.fromCurr = name;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public String getRateTime() {
+		return rateTime;
 	}
-	
+
+	public void setRateTime(String rateTime) {
+		this.rateTime = rateTime;
+	}
+
 	public Integer getRate() {
 		return rate;
 	}
@@ -53,17 +73,17 @@ public class CurrencyPair implements Serializable{
 		this.createdDate = createdDate;
 	}	
 	
-	public String getSource() {
-		return source;
+	public String getSourceID() {
+		return sourceID;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setSourceID(String source) {
+		this.sourceID = source;
 	}
 
 	@Override
 	public String toString() {
-		return "CurrencyPair [id=" + id + ", name=" + name + ", rate=" + rate
+		return "CurrencyPair [id=" + id + ", fromCurr=" + fromCurr + ", rate=" + rate
 				+ ", createdDate=" + createdDate + "]";
 	}
 }
