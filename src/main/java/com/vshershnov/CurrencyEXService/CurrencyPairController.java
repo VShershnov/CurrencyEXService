@@ -1,6 +1,7 @@
 package com.vshershnov.CurrencyEXService;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,7 +23,6 @@ import com.vshershnov.CurrencyEXService.model.CurrencyPair;
  * Handles requests for the application home page.
  */
 @RestController
-@RequestMapping("/rate")
 public class CurrencyPairController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairController.class);
@@ -39,9 +39,12 @@ public class CurrencyPairController {
 	//Map to store employees, ideally we should use database
 	Map<Integer, CurrencyPair> curData = new HashMap<Integer, CurrencyPair>();
 
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
+	/*
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -56,20 +59,20 @@ public class CurrencyPairController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/usd/uah/dummy", method = RequestMethod.GET)
+	@RequestMapping(value = "/rate/usd/uah/dummy", method = RequestMethod.GET)
 	public @ResponseBody CurrencyPair getDummyCurrencyPair() {
 		logger.info("Start getDummyCurrencyPair");
 		CurrencyPair curPair = new CurrencyPair();
 		curPair.setId(9999);
 		curPair.setFromCurr("Dummy");
-		curPair.setCreatedDate(new Date());
+		curPair.setCreatedDate(LocalDate.now());
 		curPair.setRate(2875);
 		curPair.setSourceID("nbu.gov.ua");
 		curData.put(9999, curPair);
 		return curPair;
 	}
 	
-	@RequestMapping(value = "/usd/uah/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/rate/usd/uah/{id}", method = RequestMethod.GET)
 	public @ResponseBody CurrencyPair getCurrencyPair(@PathVariable("id") int curId) {
 		logger.info("Start getCurrencyPair.id="+ curId);
 		
@@ -84,6 +87,8 @@ public class CurrencyPairController {
 		return curData.get(curId);
 	}
 	
+	*/
+	
 	//http://localhost:8080/rate/usd/uah/9999
 		@RequestMapping(value = "/{usd}/{uah}")
 		public CurrencyPair currencyRatePathVar(
@@ -92,7 +97,6 @@ public class CurrencyPairController {
 			
 			logger.info("Start currencyRatePathVar.fromCurr="+ fromCurr + " toCurr=" + toCurr);
 			
-			return new CurrencyPair();
-		}
-	
+			return new CurrencyPair(fromCurr, toCurr, 2685, "17", LocalDate.now(), "nbu api");
+		}	
 }
