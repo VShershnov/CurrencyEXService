@@ -4,6 +4,5 @@ import java.net.URL;
 
 public interface CurrencyRateSpiderService {
 	
-	public void getDataFromWebSource(URL url);
-
+	public void getDataFromWebSource();
 }

@@ -14,31 +14,31 @@ import java.net.URLDecoder;
 public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 
 	@Override
-	public void getDataFromWebSource(URL url) {
-		// TODO Auto-generated method stub
-		
+	public void getDataFromWebSource() {
+		// TODO Auto-generated method stub		
 	}
 	
 	 private static int CONNECT_TIMEOUT = 10 * 1000;
 	 private static int READ_TIMEOUT = 1 * 60 * 1000;
 	 private static String EMPTY = "";
 	 
-	private static String GATE_URL = "https://";
+	private static String GATE_URL = "https://hryvna-today.p.mashape.com/v1/rates/today";
+	private static String GATE_TEST_URL = "https://hryvna-today.p.mashape.com/v1/rates/today";
 
 	public String sendSaleTransaction() throws IOException {
 		testGate();
-		String handle = "GATE_AUTHORIZATION_INFO";
-		String response = sendPOST(GATE_URL, handle);
-		return parseResponse(response);
+		//String handle = "GATE_AUTHORIZATION_INFO";
+		//String response = sendPOST(GATE_URL, handle);
+		//return parseResponse(response);
+		return "";
 	}
 
 	private void testGate() throws IOException {
-		String response = sendPOST("GATE_TEST_URL", "");
+		String response = sendPOST(GATE_TEST_URL, "");
 		System.out.println(response);
 	}
 
-	private String parseResponse(String response)
-			throws UnsupportedEncodingException {
+	private String parseResponse(String response) throws UnsupportedEncodingException {
 
 		String[] pairs = response.split("\\&");
 		for (int i = 0; i < pairs.length; i++) {
@@ -65,8 +65,7 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 		conn.setUseCaches(false);
 		conn.setConnectTimeout(CONNECT_TIMEOUT);
 		conn.setReadTimeout(READ_TIMEOUT);
-		conn.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
+		conn.setRequestProperty("Content-Type", "application/json");
 		conn.setRequestMethod("POST");
 
 		writer = new OutputStreamWriter(conn.getOutputStream());

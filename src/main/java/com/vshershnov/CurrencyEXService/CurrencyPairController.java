@@ -8,19 +8,21 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 
 /**
  * Handles requests for the application home page.
  */
-@Controller
+@RestController
+@RequestMapping("/rate")
 public class CurrencyPairController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairController.class);
@@ -54,23 +56,43 @@ public class CurrencyPairController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/currencyPair/dummy", method = RequestMethod.GET)
+	@RequestMapping(value = "/usd/uah/dummy", method = RequestMethod.GET)
 	public @ResponseBody CurrencyPair getDummyCurrencyPair() {
 		logger.info("Start getDummyCurrencyPair");
 		CurrencyPair curPair = new CurrencyPair();
 		curPair.setId(9999);
-		curPair.setName("Dummy");
+		curPair.setFromCurr("Dummy");
 		curPair.setCreatedDate(new Date());
 		curPair.setRate(2875);
-		curPair.setSource("nbu.gov.ua");
+		curPair.setSourceID("nbu.gov.ua");
 		curData.put(9999, curPair);
 		return curPair;
 	}
 	
-	@RequestMapping(value = "/currencyPair/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/usd/uah/{id}", method = RequestMethod.GET)
 	public @ResponseBody CurrencyPair getCurrencyPair(@PathVariable("id") int curId) {
 		logger.info("Start getCurrencyPair.id="+ curId);
 		
 		return curData.get(curId);
 	}
+	
+	//http://localhost:8080/rate/usd/uah?id=9999
+	@RequestMapping(value = "/usd/uah")
+	public CurrencyPair currencyRateReqParam(@RequestParam(value="id", defaultValue="") int curId) {
+		logger.info("Start currencyRateReqParam.id="+ curId);
+		
+		return curData.get(curId);
+	}
+	
+	//http://localhost:8080/rate/usd/uah/9999
+		@RequestMapping(value = "/{usd}/{uah}")
+		public CurrencyPair currencyRatePathVar(
+				@PathVariable ("fromCurr") String fromCurr,
+				@PathVariable ("toCurr") String toCurr) {			
+			
+			logger.info("Start currencyRatePathVar.fromCurr="+ fromCurr + " toCurr=" + toCurr);
+			
+			return new CurrencyPair();
+		}
+	
 }
