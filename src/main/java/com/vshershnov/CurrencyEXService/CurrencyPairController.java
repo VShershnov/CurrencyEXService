@@ -4,20 +4,18 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.service.CurrencyPairService;
 
 /**
  * Handles requests for the application home page.
@@ -27,15 +25,9 @@ public class CurrencyPairController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairController.class);
 	
-	/*
-	private CurrencyPairService currencyPairService;
-	
-	@Autowired(required=true)
-	@Qualifier(value="currencyPairService")
-	public void setCurrencyPairService(CurrencyPairService currencyPairService) {
-		this.currencyPairService = currencyPairService;
-	}
-	*/
+	@Autowired
+	private CurrencyPairService currencyPairService;	
+			
 	//Map to store employees, ideally we should use database
 	Map<Integer, CurrencyPair> curData = new HashMap<Integer, CurrencyPair>();
 
@@ -50,8 +42,7 @@ public class CurrencyPairController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);		
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
@@ -59,6 +50,7 @@ public class CurrencyPairController {
 		return "home";
 	}
 	
+	/*
 	@RequestMapping(value = "/rate/usd/uah/dummy", method = RequestMethod.GET)
 	public @ResponseBody CurrencyPair getDummyCurrencyPair() {
 		logger.info("Start getDummyCurrencyPair");
@@ -71,32 +63,34 @@ public class CurrencyPairController {
 		curData.put(9999, curPair);
 		return curPair;
 	}
+
+	*/	
 	
-	@RequestMapping(value = "/rate/usd/uah/{id}", method = RequestMethod.GET)
-	public @ResponseBody CurrencyPair getCurrencyPair(@PathVariable("id") int curId) {
-		logger.info("Start getCurrencyPair.id="+ curId);
-		
-		return curData.get(curId);
+	@RequestMapping(value = "/")
+	public CurrencyPair welcome() {
+		logger.info("Welcome page message");
+
+		return new CurrencyPair();
+	}
+
+	@RequestMapping(value = "/all")
+	public List<CurrencyPair> getAllCurrencyRate() {
+
+		logger.info("Return all currency rates:");
+
+		return currencyPairService.getAll();
 	}
 	
-	//http://localhost:8080/rate/usd/uah?id=9999
-	@RequestMapping(value = "/usd/uah")
-	public CurrencyPair currencyRateReqParam(@RequestParam(value="id", defaultValue="") int curId) {
-		logger.info("Start currencyRateReqParam.id="+ curId);
-		
-		return curData.get(curId);
+	//http://localhost:8080/rate/usd/uah/
+	@RequestMapping(value = "/rate/{usd}/{uah}")
+	public CurrencyPair currencyRatePathVar(
+			@PathVariable String fromCurr,
+			@PathVariable String toCurr) {
+
+		logger.info("Start currencyRatePathVar.fromCurr=" + fromCurr
+				+ " toCurr=" + toCurr);
+
+		return new CurrencyPair(fromCurr, toCurr, 2685, "17", LocalDate.now(),
+				"nbu api");
 	}
-	
-	*/
-	
-	//http://localhost:8080/rate/usd/uah/9999
-		@RequestMapping(value = "/{usd}/{uah}")
-		public CurrencyPair currencyRatePathVar(
-				@PathVariable ("fromCurr") String fromCurr,
-				@PathVariable ("toCurr") String toCurr) {			
-			
-			logger.info("Start currencyRatePathVar.fromCurr="+ fromCurr + " toCurr=" + toCurr);
-			
-			return new CurrencyPair(fromCurr, toCurr, 2685, "17", LocalDate.now(), "nbu api");
-		}	
 }

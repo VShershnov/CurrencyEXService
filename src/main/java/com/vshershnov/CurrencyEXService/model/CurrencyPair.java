@@ -82,7 +82,7 @@ public class CurrencyPair implements Serializable{
 		this.rate = rate;
 	}	
 	
-	@JsonSerialize(using=DateSerializer.class)
+	//@JsonSerialize(using=DateSerializer.class)
 	public LocalDate getCreatedDate() {
 		return createdDate;
 	}	

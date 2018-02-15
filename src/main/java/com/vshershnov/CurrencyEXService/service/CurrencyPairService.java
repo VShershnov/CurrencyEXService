@@ -1,20 +1,19 @@
 package com.vshershnov.CurrencyEXService.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 
 public interface CurrencyPairService {	
 	
-	public CurrencyPair create(String name, Integer rate, Date createdDate);
+	public void create(CurrencyPair currency);
 	
 	public CurrencyPair getByPK(int key);
 	
 	public List<CurrencyPair> getAll();
 	
-	public void delete(CurrencyPair object);
+	public void delete(CurrencyPair currency);
 	
-	public void update(CurrencyPair object);
+	public void update(CurrencyPair currency);
 		
 }
