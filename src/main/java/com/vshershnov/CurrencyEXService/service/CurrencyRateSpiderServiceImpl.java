@@ -10,14 +10,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vshershnov.CurrencyEXService.dao.CurrencyPairDao;
+import com.vshershnov.CurrencyEXService.dao.CurrencyPairDaoImpl;
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.spider.BankUaSpider;
+import com.vshershnov.CurrencyEXService.spider.NBUCurrencySpider;
+
 
 public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
-
-	@Override
-	public void getDataFromWebSource() {
-		// TODO Auto-generated method stub		
-	}
 	
+	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairDaoImpl.class);
+	
+	@Autowired
+	private CurrencyPairDao currencyPairDao;
+
+	@Autowired
+	private BankUaSpider bankUaSpider;
+	
+	@Autowired
+	private NBUCurrencySpider nbuCurrencySpider;
+	
+		
 	 private static int CONNECT_TIMEOUT = 10 * 1000;
 	 private static int READ_TIMEOUT = 1 * 60 * 1000;
 	 private static String EMPTY = "";
@@ -94,5 +111,32 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 			sb.append(line);
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public void startAllSpider() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startSpider(URL url) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopSpider(URL url) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopAllSpider() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void saveToStorage(CurrencyPair currencyPair) {
+		currencyPairDao.add(currencyPair);		
 	}
 }

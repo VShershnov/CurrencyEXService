@@ -19,34 +19,33 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 
 	private List<CurrencyPair> currencies = Arrays.asList(new CurrencyPair("usd", "uah", 2685, "17", LocalDate.now(), "nbu api"),
 														new CurrencyPair("usd", "uah", 2655, "09", LocalDate.now(), "nbu api"),
-														new CurrencyPair("usd", "uah", 2655, "09", LocalDate.of(2018, 2, 13), "nbu api"));
+														new CurrencyPair("usd", "uah", 2655, "09", LocalDate.of(2018, 2, 13), "nbu api"));	
 	
 	@Override
-	public void create(CurrencyPair currency) {
+	public void add(CurrencyPair currency) {
+		// TODO Auto-generated method stub
 		logger.info("DAO. create: ", currency);
 		currencies.add(currency);
 	}
 
 	@Override
-	public CurrencyPair getByPK(int key) {
-		return null;
-	}
-
-	@Override
 	public List<CurrencyPair> getAll() {
+		// TODO Auto-generated method stub
 		logger.info("DAO. return all currencies");
 		return currencies;
 	}
 
 	@Override
-	public void delete(CurrencyPair object) {
+	public CurrencyPair getRateByCurrency(String fromCur, String toCur) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void update(CurrencyPair object) {
-		// TODO Auto-generated method stub		
+	public CurrencyPair getRateByCurrencyToDate(String fromCur, String toCur,
+			String date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
