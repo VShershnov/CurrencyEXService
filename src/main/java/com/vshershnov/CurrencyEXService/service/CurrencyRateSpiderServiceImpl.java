@@ -13,6 +13,7 @@ import java.net.URLDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.vshershnov.CurrencyEXService.dao.CurrencyPairDao;
 import com.vshershnov.CurrencyEXService.dao.CurrencyPairDaoImpl;
@@ -20,7 +21,7 @@ import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.spider.BankUaSpider;
 import com.vshershnov.CurrencyEXService.spider.NBUCurrencySpider;
 
-
+@Service
 public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairDaoImpl.class);

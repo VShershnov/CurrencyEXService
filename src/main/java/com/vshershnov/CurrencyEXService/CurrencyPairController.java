@@ -1,11 +1,6 @@
 package com.vshershnov.CurrencyEXService;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
+import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
 /**
  * Handles requests for the application home page.
@@ -26,28 +22,16 @@ public class CurrencyPairController {
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyPairController.class);
 	
 	@Autowired
-	private CurrencyPairReaderService currencyPairReaderService;	
+	private CurrencyPairReaderService currencyPairReaderService;
+	
+	@Autowired
+	private TimestampUtils timestampUtils;
 			
-	//Map to store employees, ideally we should use database
-	Map<Integer, CurrencyPair> curData = new HashMap<Integer, CurrencyPair>();
 	
-	
-	/*
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
-	}	
+	public void setTimestampUtils(TimestampUtils timestampUtils) {
+		this.timestampUtils = timestampUtils;
+	}
 
-	*/	
-	
 	@RequestMapping(value = "/")
 	public String welcome() {
 		logger.info("Welcome page message");
@@ -71,7 +55,7 @@ public class CurrencyPairController {
 		logger.info("Start currencyRatePathVar.fromCurr=" + fromCurr
 				+ " toCurr=" + toCurr);
 
-		return new CurrencyPair(fromCurr, toCurr, 2685, "17", LocalDate.now(),
-				"nbu api");
+		String rateTime = timestampUtils.getISO8601StringForCurrentDate();
+		return new CurrencyPair(fromCurr, toCurr, 2685, rateTime, "nbu api");
 	}
 }
