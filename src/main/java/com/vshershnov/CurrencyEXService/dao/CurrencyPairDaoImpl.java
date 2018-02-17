@@ -35,7 +35,7 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 	@Override
 	public void add(CurrencyPair currency) {
 		// TODO Auto-generated method stub
-		logger.info("DAO. create: ", currency);
+		logger.info("DAO. add: ", currency);
 		currencies.add(currency);
 	}	
 

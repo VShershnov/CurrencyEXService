@@ -1,5 +1,6 @@
 package com.vshershnov.CurrencyEXService;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
+import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
 import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
 /**
@@ -25,6 +27,9 @@ public class CurrencyPairController {
 	private CurrencyPairReaderService currencyPairReaderService;
 	
 	@Autowired
+	private CurrencyRateSpiderService currencyRateSpiderService;
+	
+	@Autowired
 	private TimestampUtils timestampUtils;
 			
 	
@@ -33,7 +38,11 @@ public class CurrencyPairController {
 	}
 
 	@RequestMapping(value = "/")
-	public String welcome() {
+	public String welcome() throws IOException {
+		
+		logger.info("Start Currency Spider");
+		currencyRateSpiderService.startAllSpider();
+		
 		logger.info("Welcome page message");
 		return "Welcome to RestTemplate";
 	}
