@@ -1,6 +1,7 @@
 package com.vshershnov.CurrencyEXService.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class CurrencyPair implements Serializable{	
 	
@@ -12,7 +13,7 @@ public class CurrencyPair implements Serializable{
 	
 	private String toCurr;
 	
-	private Integer rate;
+	private BigDecimal rate;
 
 	private String rateTime;
 	
@@ -23,12 +24,12 @@ public class CurrencyPair implements Serializable{
 		super();
 	}
 
-	public CurrencyPair(String fromCurr, String toCurr, Integer rate, String rateTime, String sourceID) {
+	public CurrencyPair(String fromCurr, String toCurr, Double rate, String rateTime, String sourceID) {
 		super();
 		this.fromCurr = fromCurr;
 		this.toCurr = toCurr;
 		this.rateTime = rateTime;
-		this.rate = rate;
+		this.rate = BigDecimal.valueOf(rate);
 		this.sourceID = sourceID;		
 	}
 
@@ -64,11 +65,11 @@ public class CurrencyPair implements Serializable{
 		this.rateTime = rateTime;
 	}
 
-	public Integer getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
 	
-	public void setRate(Integer rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}	
 	

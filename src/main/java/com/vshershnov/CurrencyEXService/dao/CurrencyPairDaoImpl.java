@@ -22,9 +22,9 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 	private TimestampUtils timestampUtils;
 	
 	
-	private List<CurrencyPair> currencies = Arrays.asList(new CurrencyPair("usd", "uah", 2685, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
-														new CurrencyPair("usd", "uah", 2655, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
-														new CurrencyPair("usd", "uah", 2675, "2018-02-13'T'09:00'Z'", "nbu api"));	
+	private List<CurrencyPair> currencies = Arrays.asList(new CurrencyPair("usd", "uah", 26.85, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
+														new CurrencyPair("usd", "uah", 26.55, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
+														new CurrencyPair("usd", "uah", 26.75, "2018-02-13'T'09:00'Z'", "nbu api"));	
 	
 	
 	public void setTimestampUtils(TimestampUtils timestampUtils) {

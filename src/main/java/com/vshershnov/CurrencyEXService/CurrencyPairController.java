@@ -48,14 +48,27 @@ public class CurrencyPairController {
 	
 	//http://localhost:8080/rate/usd/uah/
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}")
-	public CurrencyPair currencyRatePathVar(
+	public CurrencyPair currencyRateFromCurrToCurr(
 			@PathVariable String fromCurr,
 			@PathVariable String toCurr) {
 
-		logger.info("Start currencyRatePathVar.fromCurr=" + fromCurr
+		logger.info("Start currencyRateFromCurrToCurr fromCurr=" + fromCurr
 				+ " toCurr=" + toCurr);
 
 		String rateTime = timestampUtils.getISO8601StringForCurrentDate();
-		return new CurrencyPair(fromCurr, toCurr, 2685, rateTime, "nbu api");
+		return new CurrencyPair(fromCurr, toCurr, 26.85, rateTime, "nbu api");
 	}
+	
+	//http://localhost:8080/rate/usd/uah/
+		@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}")
+		public CurrencyPair currencyRateFromCurrToCurrToDate(
+				@PathVariable String fromCurr,
+				@PathVariable String toCurr,
+				@PathVariable String rateTime) {
+			
+			logger.info("Start currencyRateFromCurrToCurrToDate fromCurr=" + fromCurr
+					+ " toCurr=" + toCurr + " toDate=" + rateTime);
+
+			return new CurrencyPair(fromCurr, toCurr, 26.85, rateTime, "nbu api");
+		}
 }
