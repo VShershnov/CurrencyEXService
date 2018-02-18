@@ -39,13 +39,33 @@ public class CurrencyPairController {
 	}
 
 	@RequestMapping(value = "/")
-	public String welcome() throws IOException, ParseException {
+	public String welcome() throws IOException, ParseException, InterruptedException {
+		
+		//logger.info("Start Currency Spider");
+		//currencyRateSpiderService.startAllSpider();
+		
+		logger.info("Welcome page message");
+		return "Welcome to RestTemplate";
+	}
+	
+	@RequestMapping(value = "/spiders/stop")
+	public String stopSpiders() throws IOException, ParseException, InterruptedException {
+		
+		logger.info("Stopping Currency Spider");
+		currencyRateSpiderService.stopAllSpider();
+		
+		logger.info("Spiders stopped");
+		return "Spiders stopped";
+	}
+	
+	@RequestMapping(value = "/spiders/start")
+	public String startSpiders() throws IOException, ParseException, InterruptedException {
 		
 		logger.info("Start Currency Spider");
 		currencyRateSpiderService.startAllSpider();
 		
-		logger.info("Welcome page message");
-		return "Welcome to RestTemplate";
+		logger.info("Spiders started");
+		return "Spiders started";
 	}
 
 	@RequestMapping(value = "/all")
