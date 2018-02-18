@@ -4,18 +4,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
 @Service
 public class NBUSpiderImpl implements NBUSpider {	
@@ -28,6 +38,7 @@ public class NBUSpiderImpl implements NBUSpider {
 	
 	private static String GATE_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
 	
+		
 	@Override
 	public CurrencyPair getDataFromWebSource() throws IOException {
 		logger.info("Send GET to " + GATE_URL);		
@@ -44,7 +55,6 @@ public class NBUSpiderImpl implements NBUSpider {
 		HttpURLConnection conn = null;
 		InputStream stream = null;
 		URL urlLink = new URL(url);
-		OutputStreamWriter writer = null;
 		
 		logger.info("Open connectio to " + url);
 		conn = (HttpURLConnection) urlLink.openConnection();
@@ -63,8 +73,9 @@ public class NBUSpiderImpl implements NBUSpider {
 			logger.info("Response code is " + conn.getResponseCode());
 			return null;
 		}
-			
-		logger.info("stream " + stream2String(stream));
+		
+		//String steamString = stream2String(stream);
+		//logger.info("stream " + steamString);
 		return stream2Object(stream);		
 	}
 	
@@ -72,20 +83,79 @@ public class NBUSpiderImpl implements NBUSpider {
 	private CurrencyPair stream2Object(InputStream stream) throws IOException {
 		
 		CurrencyPair currency = new CurrencyPair();
-		//create ObjectMapper instance
+		
 		ObjectMapper objectMapper = new ObjectMapper();
+		//ObjectNode jsonTree = (ObjectNode) objectMapper.readTree(stream);
+		//List<JsonNode> jsonNodes = objectMapper.readValue(stream, new TypeReference<List<JsonNode>>(){});
+		
+		/*
+		JSONArray jsonArr = new JSONArray(stream);
+		
+		for (int i = 0; i < jsonArr.length(); i++) {
+            JSONObject jsonObj = jsonArr.getJSONObject(i);
+
+            System.out.println(jsonObj);
+        }
+        */
 		
 		//read JSON like DOM Parser
 		logger.info("Create JsonNode");
-		JsonNode rootNode = objectMapper.readTree(stream);
+		JsonNode jsonTree = objectMapper.readTree(stream);
+		//JsonNode rootNode = objectMapper.readValue(stream, JsonNode.class);
+		
+		Iterator<JsonNode> elements = jsonTree.elements();
+		while(elements.hasNext()){
+			JsonNode currencyNode = elements.next();
+			JsonNode rateNode = currencyNode.path("rate");
+			currency.setRate(BigDecimal.valueOf(rateNode.asDouble()));
+			logger.info("rate = "+ BigDecimal.valueOf(rateNode.asDouble()));
+		}
+		
+		//JsonNode rateNode = jsonTree.get("rate");
 		
 		
-		JsonNode idNode = rootNode.path("id");
-		currency.setId(idNode.asInt());
-		logger.info("id = "+idNode.asInt());
+		/*
+		JsonNode ccNode = rootNode.path("cc");
+		currency.setFromCurr(ccNode.asText().toLowerCase());
+		logger.info("fromCurr = "+ ccNode.asText().toLowerCase());
 		
-		currency.setRateTime("2018-02-17");
-				
+		JsonNode rateTimeNode = rootNode.path("exchangedate");
+		TimestampUtils timestampUtils = new TimestampUtils();
+		String rateTime = timestampUtils.getISOStringForNBUDate(rateTimeNode.asText());
+		logger.info("rateTime = "+ rateTime);
+		currency.setRateTime(rateTime);
+		*/
+		currency.setToCurr("uah");
+		currency.setSourceID("NBU API");
+		
+		
+		/*
+		 JsonFactory factory = new JsonFactory();
+	     JsonParser parser = factory.createParser(stream);
+	     parser.nextToken();
+	     parser.nextToken();
+	     while (parser.nextToken() != JsonToken.END_ARRAY) { //loop until "]"
+	    	 System.out.println(parser.toString());
+	    	 System.out.println(parser.getText());
+	    	 parser.nextToken();
+	    	 System.out.println(parser.getText());
+	    	 while (parser.nextToken() != JsonToken.END_OBJECT) { //loop until "}
+				String fieldName = parser.getCurrentName();
+				if (fieldName.equals("rate")) {
+					parser.nextToken();
+					System.out.println("rate : " + BigDecimal.valueOf(parser.getDoubleValue()));
+				} else if (fieldName.equals("cc")) {
+					parser.nextToken();
+					System.out.println("fromCurr = "+ parser.getText().toLowerCase());
+				} else { // unexpected token, generate error
+					throw new IOException("Unrecognized field '" + fieldName + "'");
+				}
+	    	 }
+		}
+	    parser.close(); 
+		*/
+		
+		
 		return currency;
 	}
 

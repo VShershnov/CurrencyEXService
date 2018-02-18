@@ -55,4 +55,15 @@ public class TimestampUtils {
 
 		return null;
 	}
+
+	/**
+	 * Return an ISO 8601 combined date and time string for NBU Date text "dd.MM.yyyy"
+	 * 
+	 * @param asText 
+	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
+	 */
+	public String getISOStringForNBUDate(String asText) {
+		Date date = getDateForISO8601String(asText);		
+		return getISO8601StringForDate(date);
+	}
 }
