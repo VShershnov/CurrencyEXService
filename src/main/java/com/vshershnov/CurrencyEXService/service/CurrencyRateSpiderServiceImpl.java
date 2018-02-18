@@ -2,6 +2,7 @@ package com.vshershnov.CurrencyEXService.service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 	
 
 	@Override
-	public void startAllSpider() throws IOException {
+	public void startAllSpider() throws IOException, ParseException {
 		// TODO Auto-generated method stub
 		logger.info("Start Currency Spider");
 		CurrencyPair currencyPair = nbuSpider.getDataFromWebSource();

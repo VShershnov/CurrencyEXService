@@ -1,5 +1,6 @@
 package com.vshershnov.CurrencyEXService.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 	private TimestampUtils timestampUtils;
 	
 	
-	private List<CurrencyPair> currencies = Arrays.asList(new CurrencyPair("usd", "uah", 26.85, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
-														new CurrencyPair("usd", "uah", 26.55, "timestampUtils.getISO8601StringForCurrentDate()", "nbu api"),
-														new CurrencyPair("usd", "uah", 26.75, "2018-02-13'T'09:00'Z'", "nbu api"));	
+	private List<CurrencyPair> currencies = new ArrayList<CurrencyPair>(Arrays.asList(new CurrencyPair("usd", "uah", 26.85, "2018-02-13", "temp"),
+														new CurrencyPair("usd", "uah", 26.55, "2018-02-14", "temp"),
+														new CurrencyPair("usd", "uah", 26.75, "2018-02-13'T'09:00'Z'", "temp")));	
 	
 	
 	public void setTimestampUtils(TimestampUtils timestampUtils) {
@@ -35,7 +36,7 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 	@Override
 	public void add(CurrencyPair currency) {
 		// TODO Auto-generated method stub
-		logger.info("DAO. add: ", currency);
+		logger.info("DAO. add: " + currency);
 		currencies.add(currency);
 	}	
 
@@ -58,4 +59,22 @@ public class CurrencyPairDaoImpl implements CurrencyPairDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	/**
+	 * @return the currencies
+	 */
+	public List<CurrencyPair> getCurrencies() {
+		return currencies;
+	}
+
+
+	/**
+	 * @param currencies the currencies to set
+	 */
+	public void setCurrencies(List<CurrencyPair> currencies) {
+		this.currencies = currencies;
+	}
+	
+	
 }

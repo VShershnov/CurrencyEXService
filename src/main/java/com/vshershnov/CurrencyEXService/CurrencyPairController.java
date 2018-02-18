@@ -1,6 +1,7 @@
 package com.vshershnov.CurrencyEXService;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class CurrencyPairController {
 	}
 
 	@RequestMapping(value = "/")
-	public String welcome() throws IOException {
+	public String welcome() throws IOException, ParseException {
 		
 		logger.info("Start Currency Spider");
 		currencyRateSpiderService.startAllSpider();

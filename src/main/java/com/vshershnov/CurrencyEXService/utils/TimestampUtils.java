@@ -61,9 +61,14 @@ public class TimestampUtils {
 	 * 
 	 * @param asText 
 	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
+	 * @throws ParseException 
 	 */
-	public String getISOStringForNBUDate(String asText) {
-		Date date = getDateForISO8601String(asText);		
-		return getISO8601StringForDate(date);
+	public String getISOStringForNBUDate(String asText) throws ParseException {
+		// input format: MM/yy
+		SimpleDateFormat parser = new SimpleDateFormat("dd.MM.yyyy");
+		// output format: yyyy-MM-dd
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = parser.parse(asText);
+		return formatter.format(date); // 2017-11-01		
 	}
 }
