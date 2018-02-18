@@ -1,11 +1,7 @@
 package com.vshershnov.CurrencyEXService.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import java.math.BigDecimal;
 
 public class CurrencyPair implements Serializable{	
 	
@@ -17,29 +13,24 @@ public class CurrencyPair implements Serializable{
 	
 	private String toCurr;
 	
+	private BigDecimal rate;
+
 	private String rateTime;
 	
-	private Integer rate;
-	
-	private LocalDate  createdDate;
-	
-	private String sourceID;
-	
+	private String sourceID;	
 	
 	
 	public CurrencyPair() {
 		super();
 	}
 
-	public CurrencyPair(String fromCurr, String toCurr, 
-			Integer rate, String rateTime, LocalDate createdDate, String sourceID) {
+	public CurrencyPair(String fromCurr, String toCurr, Double rate, String rateTime, String sourceID) {
 		super();
 		this.fromCurr = fromCurr;
 		this.toCurr = toCurr;
 		this.rateTime = rateTime;
-		this.rate = rate;
-		this.sourceID = sourceID;
-		this.createdDate = createdDate;
+		this.rate = BigDecimal.valueOf(rate);
+		this.sourceID = sourceID;		
 	}
 
 	public int getId() {
@@ -74,21 +65,12 @@ public class CurrencyPair implements Serializable{
 		this.rateTime = rateTime;
 	}
 
-	public Integer getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
 	
-	public void setRate(Integer rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
-	}	
-	
-	//@JsonSerialize(using=DateSerializer.class)
-	public LocalDate getCreatedDate() {
-		return createdDate;
-	}	
-	
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
 	}	
 	
 	public String getSourceID() {
@@ -99,9 +81,15 @@ public class CurrencyPair implements Serializable{
 		this.sourceID = source;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "CurrencyPair [id=" + id + ", fromCurr=" + fromCurr + ", rate=" + rate
-				+ ", createdDate=" + createdDate + "]";
+		return "CurrencyPair [fromCurr=" + fromCurr + ", toCurr=" + toCurr
+				+ ", rate=" + rate + ", rateTime=" + rateTime + ", sourceID="
+				+ sourceID + "]";
 	}
+
+	
 }
