@@ -35,6 +35,29 @@
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	</beans:bean>
 	
+	<!-- Create DataSource Bean -->
+	
+	<beans:bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">		
+		
+		<beans:property name="driverClassName" value="org.postgresql.Driver" />
+		<beans:property name="url" value="jdbc:postgresql://[::1]:5432/CurrencyRate" />		
+		<beans:property name="username" value="postgres" />
+		<beans:property name="password" value="1111" />				
+	</beans:bean>
+	 
+	 <!-- 
+	<beans:bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<beans:property name="jndiName" value="java:comp/env/jdbc/postgres"/>
+	</beans:bean>
+	 -->
+	 
+	 <!-- using JEE namespace for lookup -->
+	 <!-- 
+	 <jee:jndi-lookup id="dbDataSource" jndi-name="jdbc/postgres"
+   			expected-type="javax.sql.DataSource" />
+	  -->
+	
 	<context:component-scan base-package="com.vshershnov.CurrencyEXService" />	
 	
 </beans:beans>

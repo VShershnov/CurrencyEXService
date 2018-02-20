@@ -7,10 +7,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
 import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
@@ -39,13 +42,14 @@ public class CurrencyPairController {
 	}
 
 	@RequestMapping(value = "/")
-	public String welcome() throws IOException, ParseException, InterruptedException {
+	public ResponseEntity < String > welcome() throws IOException, ParseException, InterruptedException, DaoException {
 		
-		//logger.info("Start Currency Spider");
-		//currencyRateSpiderService.startAllSpider();
+		logger.info("Start Currency Spider");
+		currencyRateSpiderService.startAllSpider();
 		
 		logger.info("Welcome page message");
-		return "Welcome to RestTemplate";
+		return new ResponseEntity < String > ("Response from DELETE method", HttpStatus.OK);
+		//return "Welcome to RestTemplate";
 	}
 	
 	@RequestMapping(value = "/spiders/stop")
@@ -55,11 +59,12 @@ public class CurrencyPairController {
 		currencyRateSpiderService.stopAllSpider();
 		
 		logger.info("Spiders stopped");
+		
 		return "Spiders stopped";
 	}
 	
 	@RequestMapping(value = "/spiders/start")
-	public String startSpiders() throws IOException, ParseException, InterruptedException {
+	public String startSpiders() throws IOException, ParseException, InterruptedException, DaoException {
 		
 		logger.info("Start Currency Spider");
 		currencyRateSpiderService.startAllSpider();

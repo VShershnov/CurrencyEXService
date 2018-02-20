@@ -32,7 +32,7 @@ public class TimestampUtils {
 	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
 	 */
 	public String getISO8601StringForDate(Date date) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return dateFormat.format(date);
 	}
@@ -44,7 +44,7 @@ public class TimestampUtils {
 	 * @return Date
 	 */
 	public Date getDateForISO8601String(String dateStr) {		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));		
 
 		try {
