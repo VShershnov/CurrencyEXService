@@ -29,7 +29,7 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 	JdbcTemplate jdbcTemplate;
 	
 	private final String SQL_FIND_RATE_BY_ID = "select * from \"EURUAH\" where id = ?";
-	private final String SQL_FIND_RATE_BY_CURRENCY_PAIR = "select * from \"EURUAH\" where fromCurr = ? && toCurr = ?";
+	private final String SQL_FIND_RATE_BY_CURRENCY_PAIR = "select * from \"EURUAH\" where fromCurr = ? and toCurr = ?";
 	private final String SQL_GET_ALL = "select id, fromCurr, toCurr, rate, rateTime, sourceID from \"EURUAH\"";
 	private final String SQL_INSERT_RATE = "insert into \"EURUAH\"(fromCurr, toCurr, rate, rateTime, sourceID) values(?,?,?,?,?)";
 	

@@ -88,9 +88,8 @@ public class CurrencyPairController {
 
 		logger.info("Start currencyRateFromCurrToCurr fromCurr=" + fromCurr
 				+ " toCurr=" + toCurr);
-
-		String rateTime = timestampUtils.getISO8601StringForCurrentDate();
-		return new CurrencyPair(fromCurr, toCurr, 26.85, rateTime, "nbu api");
+		
+		return currencyPairReaderService.getRateByCurrency(fromCurr, toCurr);
 	}
 	
 	//http://localhost:8080/rate/usd/uah/
