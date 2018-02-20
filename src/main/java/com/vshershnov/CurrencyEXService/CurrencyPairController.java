@@ -48,8 +48,7 @@ public class CurrencyPairController {
 		currencyRateSpiderService.startAllSpider();
 		
 		logger.info("Welcome page message");
-		return new ResponseEntity < String > ("Response from DELETE method", HttpStatus.OK);
-		//return "Welcome to RestTemplate";
+		return new ResponseEntity < String > ("Welcome page message", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/spiders/stop")

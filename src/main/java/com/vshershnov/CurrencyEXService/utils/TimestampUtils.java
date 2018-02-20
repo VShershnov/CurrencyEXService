@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,6 @@ public class TimestampUtils {
 	 */
 	public String getISO8601StringForDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return dateFormat.format(date);
 	}
 	
@@ -45,8 +43,7 @@ public class TimestampUtils {
 	 */
 	public Date getDateForISO8601String(String dateStr) {		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));		
-
+		
 		try {
 			return dateFormat.parse(dateStr);
 		} catch (ParseException e) {

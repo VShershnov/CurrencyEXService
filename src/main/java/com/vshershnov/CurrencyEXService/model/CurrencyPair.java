@@ -81,11 +81,12 @@ public class CurrencyPair implements Serializable{
 		this.sourceID = source;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "CurrencyPair [fromCurr=" + fromCurr + ", toCurr=" + toCurr
-				+ ", rate=" + rate + ", rateTime=" + rateTime + ", sourceID="
-				+ sourceID + "]";
+		return "CurrencyPair [id=" + id + ", fromCurr=" + fromCurr
+				+ ", toCurr=" + toCurr + ", rate=" + rate + ", rateTime="
+				+ rateTime + ", sourceID=" + sourceID + "]";
 	}
 
 	@Override
