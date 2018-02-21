@@ -63,7 +63,7 @@ public class CurrencyPairController {
 	}	
 	
 	//http://localhost:8080/rate/usd/uah/
-	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}")
+	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/")
 	public CurrencyPair currencyRateFromCurrToCurr(
 			@PathVariable String fromCurr,
 			@PathVariable String toCurr) {
@@ -75,7 +75,7 @@ public class CurrencyPairController {
 	}
 	
 	//http://localhost:8080/rate/usd/uah/2018-02-20
-	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}")
+	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}/")
 	public CurrencyPair currencyRateFromCurrToCurrToDate(
 			@PathVariable String fromCurr, @PathVariable String toCurr,
 			@PathVariable String rateTime) {

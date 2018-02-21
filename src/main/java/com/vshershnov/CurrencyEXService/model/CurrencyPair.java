@@ -89,6 +89,9 @@ public class CurrencyPair implements Serializable{
 				+ rateTime + ", sourceID=" + sourceID + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -97,13 +100,16 @@ public class CurrencyPair implements Serializable{
 				+ ((fromCurr == null) ? 0 : fromCurr.hashCode());
 		result = prime * result + ((rate == null) ? 0 : rate.hashCode());
 		result = prime * result
-				+ ((rateTime == null) ? 0 : rateTime.hashCode());
+				+ ((rateTime == null) ? 0 : rateTime.substring(0, 9).hashCode());
 		result = prime * result
 				+ ((sourceID == null) ? 0 : sourceID.hashCode());
 		result = prime * result + ((toCurr == null) ? 0 : toCurr.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -126,7 +132,7 @@ public class CurrencyPair implements Serializable{
 		if (rateTime == null) {
 			if (other.rateTime != null)
 				return false;
-		} else if (!rateTime.equals(other.rateTime))
+		} else if (!rateTime.substring(0, 9).equals(other.rateTime.substring(0, 9)))
 			return false;
 		if (sourceID == null) {
 			if (other.sourceID != null)
@@ -139,5 +145,7 @@ public class CurrencyPair implements Serializable{
 		} else if (!toCurr.equals(other.toCurr))
 			return false;
 		return true;
-	}	
+	}
+
+		
 }

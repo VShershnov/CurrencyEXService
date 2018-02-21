@@ -3,6 +3,7 @@ package com.vshershnov.CurrencyEXService.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,7 +32,7 @@ public class TimestampUtils {
 	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
 	 */
 	public String getISO8601StringForDate(Date date) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
 		return dateFormat.format(date);
 	}
 	
@@ -42,10 +43,12 @@ public class TimestampUtils {
 	 * @return Date
 	 */
 	public Date getDateForISO8601String(String dateStr) {		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
-			return dateFormat.parse(dateStr);
+			Date date = dateFormat.parse(dateStr);
+			date = setTime2359(date);
+			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +67,18 @@ public class TimestampUtils {
 		// input format: MM/yy
 		SimpleDateFormat parser = new SimpleDateFormat("dd.MM.yyyy");
 		// output format: yyyy-MM-dd
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
 		Date date = parser.parse(asText);
+		date.setTime(new Date().getTime());
 		return formatter.format(date); // 2017-11-01		
 	}
+	
+	private Date setTime2359(Date date) {    
+        Calendar cal = Calendar.getInstance();  
+        cal.setTime(date);  
+        cal.set(Calendar.HOUR_OF_DAY, 23);  
+        cal.set(Calendar.MINUTE, 59);  
+        cal.set(Calendar.SECOND, 59); 
+        return cal.getTime(); 
+    }
 }

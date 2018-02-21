@@ -74,7 +74,7 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 	public CurrencyPair getRateByCurrencyToDate(String fromCur, String toCur, String rateTime) {
 		
 		Date date = timestampUtils.getDateForISO8601String(rateTime);
-		logger.info("Take Rate " + fromCur.toUpperCase() + " //" + toCur.toUpperCase() +" to date " + rateTime + " from CurrencyRate.db");
+		logger.info("Take Rate " + fromCur.toUpperCase() + "/" + toCur.toUpperCase() +" to date " + rateTime + " from CurrencyRate.db");
 		CurrencyPair currency = jdbcTemplate.queryForObject(SQL_FIND_RATE_BY_CURRENCY_DATE, 
 				new Object[] {fromCur, toCur, date}, new CurrencyPairMapper());
 		return currency;
