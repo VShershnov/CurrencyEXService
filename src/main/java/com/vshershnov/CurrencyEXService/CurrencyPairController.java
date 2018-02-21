@@ -32,7 +32,7 @@ public class CurrencyPairController {
 	private CurrencyRateSpiderService currencyRateSpiderService;
 
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/", produces = {"text/html"})	
 	public ResponseEntity < String > welcome() throws IOException, ParseException, InterruptedException, DaoException {
 		
 		logger.info("Start Currency Spider");
