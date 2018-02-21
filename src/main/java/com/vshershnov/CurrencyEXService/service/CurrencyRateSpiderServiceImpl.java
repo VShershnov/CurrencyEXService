@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
 import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
-import com.vshershnov.CurrencyEXService.spider.BankUaSpider;
 import com.vshershnov.CurrencyEXService.spider.NBUSpider;
 
 @Service
@@ -25,9 +24,6 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 	
 	@Autowired
 	private CurrencyEurUahDao currencyEurUahDao;
-
-	@Autowired
-	private BankUaSpider bankUaSpider;
 	
 	@Autowired
 	private NBUSpider nbuSpider;		
@@ -56,7 +52,9 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 			if (c == null) {
 				logger.info("To storege added NEW " + currencyPair);
 				currencyEurUahDao.add(currencyPair);
-			}
+			} else {
+				logger.info("CurrencyRate " + currencyPair + " already exist in DB");
+			}			
 		}
 	}
 

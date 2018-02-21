@@ -11,7 +11,7 @@ public interface CurrencyEurUahDao {
 				
 		public CurrencyPair getRateByCurrency(String fromCur, String toCur);
 		
-		public CurrencyPair getRateByCurrencyToDate(String fromCur, String toCur, String date);
+		public CurrencyPair getRateByCurrencyToDate(String fromCur, String toCur, String rateTime);
 
 		public List<CurrencyPair> getAll();
 

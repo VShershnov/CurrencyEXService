@@ -17,7 +17,6 @@ import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
 import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
-import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
 /**
  * Handles requests for the application home page.
@@ -32,15 +31,8 @@ public class CurrencyPairController {
 	
 	@Autowired
 	private CurrencyRateSpiderService currencyRateSpiderService;
-	
-	@Autowired
-	private TimestampUtils timestampUtils;
-			
-	
-	public void setTimestampUtils(TimestampUtils timestampUtils) {
-		this.timestampUtils = timestampUtils;
-	}
 
+	
 	@RequestMapping(value = "/")
 	public ResponseEntity < String > welcome() throws IOException, ParseException, InterruptedException, DaoException {
 		
@@ -57,8 +49,7 @@ public class CurrencyPairController {
 		logger.info("Stopping Currency Spider");
 		currencyRateSpiderService.stopAllSpider();
 		
-		logger.info("Spiders stopped");
-		
+		logger.info("Spiders stopped");		
 		return "Spiders stopped";
 	}
 	
@@ -74,9 +65,7 @@ public class CurrencyPairController {
 
 	@RequestMapping(value = "/all")
 	public List<CurrencyPair> getAllCurrencyRate() {
-
 		logger.info("Return all currency rates:");
-
 		return currencyPairReaderService.getAll();
 	}
 	
@@ -92,16 +81,16 @@ public class CurrencyPairController {
 		return currencyPairReaderService.getRateByCurrency(fromCurr, toCurr);
 	}
 	
-	//http://localhost:8080/rate/usd/uah/
-		@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}")
-		public CurrencyPair currencyRateFromCurrToCurrToDate(
-				@PathVariable String fromCurr,
-				@PathVariable String toCurr,
-				@PathVariable String rateTime) {
-			
-			logger.info("Start currencyRateFromCurrToCurrToDate fromCurr=" + fromCurr
-					+ " toCurr=" + toCurr + " toDate=" + rateTime);
+	//http://localhost:8080/rate/usd/uah/2018-02-20
+	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}")
+	public CurrencyPair currencyRateFromCurrToCurrToDate(
+			@PathVariable String fromCurr, @PathVariable String toCurr,
+			@PathVariable String rateTime) {
 
-			return new CurrencyPair(fromCurr, toCurr, 26.85, rateTime, "nbu api");
-		}
+		logger.info("Start currencyRateFromCurrToCurrToDate fromCurr="
+				+ fromCurr + " toCurr=" + toCurr + " toDate=" + rateTime);
+
+		return currencyPairReaderService.getRateByCurrencyToDate(fromCurr,
+				toCurr, rateTime);
+	}
 }

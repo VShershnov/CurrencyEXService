@@ -1,9 +1,7 @@
 package com.vshershnov.CurrencyEXService.spider;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -59,8 +57,7 @@ public class NBUSpiderImpl implements NBUSpider {
 		if (stream == null) {
 			logger.info("Response code is " + conn.getResponseCode());
 			return null;
-		}
-		
+		}		
 		return stream2Object(stream);		
 	}
 
@@ -102,15 +99,5 @@ public class NBUSpiderImpl implements NBUSpider {
 		
 		logger.info("Parse nbuJSON to "+ currency);
 		return currency;
-	}
-
-	private String stream2String(InputStream is) throws IOException {
-		StringBuilder sb = new StringBuilder(8192);
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		String line = null;
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		return sb.toString();
-	}
+	}	
 }
