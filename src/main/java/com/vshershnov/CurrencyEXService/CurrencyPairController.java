@@ -2,7 +2,6 @@ package com.vshershnov.CurrencyEXService;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,13 +60,7 @@ public class CurrencyPairController {
 		
 		logger.info("Spiders started");
 		return "Spiders started";
-	}
-
-	@RequestMapping(value = "/all")
-	public List<CurrencyPair> getAllCurrencyRate() {
-		logger.info("Return all currency rates:");
-		return currencyPairReaderService.getAll();
-	}
+	}	
 	
 	//http://localhost:8080/rate/usd/uah/
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}")
