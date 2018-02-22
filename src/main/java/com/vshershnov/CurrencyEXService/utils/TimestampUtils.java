@@ -33,7 +33,8 @@ public class TimestampUtils {
 	 */
 	public String getISO8601StringForDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
-		return dateFormat.format(date);
+		String srtDate = dateFormat.format(date);
+		return srtDate;
 	}
 	
 	/**
@@ -43,16 +44,32 @@ public class TimestampUtils {
 	 * @return Date
 	 */
 	public Date getDateForISO8601String(String dateStr) {		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
 		
 		try {
-			Date date = dateFormat.parse(dateStr);
-			date = setTime2359(date);
+			Date date = dateFormat.parse(dateStr);			
 			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
+		return null;
+	}
+	
+	/**
+	 * Return a Date from ISO 8601 combined date and time string
+	 * 
+	 * @param String dateStr
+	 * @return Date
+	 */
+	public Date getDateForUrlString(String dateStr) {		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
+		
+		try {
+			Date date = dateFormat.parse(dateStr);			
+			return date;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -73,7 +90,7 @@ public class TimestampUtils {
 		return formatter.format(date); // 2017-11-01		
 	}
 	
-	private Date setTime2359(Date date) {    
+	public Date setTime2359(Date date) {    
         Calendar cal = Calendar.getInstance();  
         cal.setTime(date);  
         cal.set(Calendar.HOUR_OF_DAY, 23);  

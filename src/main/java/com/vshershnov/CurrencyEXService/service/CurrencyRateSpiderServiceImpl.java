@@ -39,7 +39,7 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 				doSpiders();
 			}
 		};
-		timer.scheduleAtFixedRate(task, 0, 15 * 1000);
+		timer.scheduleAtFixedRate(task, 0, 150 * 1000);
 	}
 
 	@Override
@@ -80,8 +80,8 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 			logger.error("Wrong parsing mechanism. Check currency rate sourse format");
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("Cannot read currency rate sourse. Check currency rate sourse url");
-			e.printStackTrace();
+			String s= "Cannot read currency rate sourse. Check currency rate sourse url";
+			logger.info(s);			
 		}
 	}
 

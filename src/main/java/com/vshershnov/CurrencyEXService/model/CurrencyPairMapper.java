@@ -17,7 +17,7 @@ public class CurrencyPairMapper implements RowMapper<CurrencyPair> {
 		curr.setFromCurr(rs.getString("fromCurr"));
 		curr.setToCurr(rs.getString("toCurr"));
 		curr.setRate(rs.getBigDecimal("rate"));
-		curr.setRateTime(timestampUtils.getISO8601StringForDate(rs.getDate("rateTime")));
+		curr.setRateTime(timestampUtils.getISO8601StringForDate(rs.getTimestamp("rateTime")));
 		curr.setSourceID(rs.getString("sourceID"));
 		return curr;
 	}
