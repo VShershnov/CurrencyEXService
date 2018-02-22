@@ -46,10 +46,17 @@ http://localhost:8080/CurrencyEXService/spiders/start
 
 # Responce JSON format
 {
+
     "id": 16,
+    
     "fromCurr": "eur",
+    
     "toCurr": "uah",
+    
     "rate": 33.227674,
+    
     "rateTime": "2018-02-22 14:48",
+    
     "sourceID": "NBU API"
+    
 }
