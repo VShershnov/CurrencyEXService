@@ -7,7 +7,7 @@ public class CurrencyPair implements Serializable{
 	
 	private static final long serialVersionUID = 6789541185994526799L;
 
-	private int id;
+	private Integer id;
 	
 	private String fromCurr;
 	
@@ -33,11 +33,11 @@ public class CurrencyPair implements Serializable{
 		this.sourceID = sourceID;		
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}	
 	
@@ -80,16 +80,72 @@ public class CurrencyPair implements Serializable{
 	public void setSourceID(String source) {
 		this.sourceID = source;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
+	
 	@Override
 	public String toString() {
-		return "CurrencyPair [fromCurr=" + fromCurr + ", toCurr=" + toCurr
-				+ ", rate=" + rate + ", rateTime=" + rateTime + ", sourceID="
-				+ sourceID + "]";
+		return "CurrencyPair [id=" + id + ", fromCurr=" + fromCurr
+				+ ", toCurr=" + toCurr + ", rate=" + rate + ", rateTime="
+				+ rateTime + ", sourceID=" + sourceID + "]";
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((fromCurr == null) ? 0 : fromCurr.hashCode());
+		result = prime * result + ((rate == null) ? 0 : rate.hashCode());
+		result = prime * result
+				+ ((rateTime == null) ? 0 : rateTime.substring(0, 9).hashCode());
+		result = prime * result
+				+ ((sourceID == null) ? 0 : sourceID.hashCode());
+		result = prime * result + ((toCurr == null) ? 0 : toCurr.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CurrencyPair other = (CurrencyPair) obj;
+		if (fromCurr == null) {
+			if (other.fromCurr != null)
+				return false;
+		} else if (!fromCurr.equals(other.fromCurr))
+			return false;
+		if (rate == null) {
+			if (other.rate != null)
+				return false;
+		} else if (!rate.equals(other.rate))
+			return false;
+		if (rateTime == null) {
+			if (other.rateTime != null)
+				return false;
+		} else if (!rateTime.substring(0, 9).equals(other.rateTime.substring(0, 9)))
+			return false;
+		if (sourceID == null) {
+			if (other.sourceID != null)
+				return false;
+		} else if (!sourceID.equals(other.sourceID))
+			return false;
+		if (toCurr == null) {
+			if (other.toCurr != null)
+				return false;
+		} else if (!toCurr.equals(other.toCurr))
+			return false;
+		return true;
+	}
+
+		
 }

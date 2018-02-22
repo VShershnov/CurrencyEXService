@@ -24,8 +24,7 @@
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<beans:property name="messageConverters">
 			<beans:list>
-				<beans:ref bean="jsonMessageConverter"/>
-				
+				<beans:ref bean="jsonMessageConverter"/>				
 			</beans:list>
 		</beans:property>
 	</beans:bean>
@@ -33,6 +32,13 @@
 	<!-- Configure bean to convert JSON to POJO and vice versa -->
 	<beans:bean id="jsonMessageConverter" 
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	</beans:bean>
+	
+	<!-- Create DataSource Bean -->
+	
+	<beans:bean id="dataSource"
+			class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<beans:property name="jndiName" value="java:comp/env/jdbc/postgres"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="com.vshershnov.CurrencyEXService" />	
