@@ -30,14 +30,8 @@ public class CurrencyPairController {
 	
 	@Autowired
 	private CurrencyRateSpiderService currencyRateSpiderService;
-
 	
-	/**
-	 * Handles on start request and start currency rate spider
-	 * 
-	 * @return welcome message
-	 * @throws IOException, ParseException, InterruptedException, DaoException
-	 */
+	
 	@RequestMapping(value = "/", produces = {"text/html"})	
 	public ResponseEntity < String > welcome() throws IOException, ParseException, InterruptedException, DaoException {
 		
@@ -48,13 +42,7 @@ public class CurrencyPairController {
 		return new ResponseEntity < String > ("Welcome page message", HttpStatus.OK);
 	}
 	
-	/**
-	 * http://localhost:8080/rate/eur/uah/
-	 * 
-	 * @param fromCurr
-	 * @param toCurr
-	 * @return JSON with today currencyRate
-	 */
+	
 	
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/")
 	public CurrencyPair currencyRateFromCurrToCurr(
@@ -67,14 +55,7 @@ public class CurrencyPairController {
 		return currencyPairReaderService.getRateByCurrency(fromCurr, toCurr);
 	}
 	
-	/**
-	 * //http://localhost:8080/rate/usd/uah/2018-02-20
-	 * 
-	 * @param PathVariable fromCurr
-	 * @param PathVariable toCurr
-	 * @param PathVariable rateTime
-	 * @return JSON with currencyRate for rateTime date or less
-	 */
+	
 	
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}/")
 	public CurrencyPair currencyRateFromCurrToCurrToDate(
@@ -88,12 +69,7 @@ public class CurrencyPairController {
 				toCurr, rateTime);
 	}
 
-	/**
-	 * manually start Currency Spider
-	 * 
-	 * @return
-	 * @throws IOException, ParseException, InterruptedException, DaoException
-	 */
+	
 	@RequestMapping(value = "/spiders/start")
 	public String startSpiders() throws IOException, ParseException, InterruptedException, DaoException {
 		
@@ -104,12 +80,7 @@ public class CurrencyPairController {
 		return "Spiders started";
 	}
 
-	/**
-	 * manually stop Currency Spider
-	 * 
-	 * @return
-	 * @throws IOException, ParseException, InterruptedException
-	 */
+	
 	@RequestMapping(value = "/spiders/stop")
 	public String stopSpiders() throws IOException, ParseException, InterruptedException {
 		
