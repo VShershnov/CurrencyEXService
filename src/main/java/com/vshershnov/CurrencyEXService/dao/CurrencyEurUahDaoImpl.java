@@ -20,6 +20,15 @@ import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.model.CurrencyPairMapper;
 import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
+/**
+ * DAO Service Implementation based on DB 
+ * and JdbcTemplate connection, statement, resultset resources  management.
+ * Used DataSource connection pool
+ * 
+ * @author vshershnov
+ *
+ */
+
 @Repository
 public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{		
 	
