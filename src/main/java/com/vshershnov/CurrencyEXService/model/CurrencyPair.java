@@ -89,8 +89,8 @@ public class CurrencyPair implements Serializable{
 				+ rateTime + ", sourceID=" + sourceID + "]";
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * HashCode use fromCurr, toCurr, rate, sourceID and only Year from rateTime
 	 */
 	@Override
 	public int hashCode() {
@@ -107,8 +107,8 @@ public class CurrencyPair implements Serializable{
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * equals use fromCurr, toCurr, rate, sourceID and only Year from rateTime
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -145,7 +145,5 @@ public class CurrencyPair implements Serializable{
 		} else if (!toCurr.equals(other.toCurr))
 			return false;
 		return true;
-	}
-
-		
+	}		
 }

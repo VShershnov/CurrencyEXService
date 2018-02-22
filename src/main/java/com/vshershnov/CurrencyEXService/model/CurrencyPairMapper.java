@@ -7,6 +7,12 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
+/**
+ * 
+ * @author vshershnov
+ *
+ * Mapper used by JdbcTemplate method to generate model object
+ */
 public class CurrencyPairMapper implements RowMapper<CurrencyPair> {
 
 	@Override
