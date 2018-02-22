@@ -7,7 +7,7 @@ import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 
 public interface CurrencyEurUahDao {
 	
-		public boolean add(CurrencyPair currency) throws IOException;
+		public void add(CurrencyPair currency) throws IOException;
 				
 		public CurrencyPair getRateByCurrency(String fromCur, String toCur);
 		

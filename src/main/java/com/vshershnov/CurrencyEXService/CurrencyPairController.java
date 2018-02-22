@@ -18,7 +18,7 @@ import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
 import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
 
 /**
- * Handles requests for the application home page.
+ * Handles REST GET requests for the application.
  */
 @RestController
 public class CurrencyPairController {
@@ -32,6 +32,12 @@ public class CurrencyPairController {
 	private CurrencyRateSpiderService currencyRateSpiderService;
 
 	
+	/**
+	 * Handles on start request and start currency rate spider
+	 * 
+	 * @return welcome message
+	 * @throws IOException, ParseException, InterruptedException, DaoException
+	 */
 	@RequestMapping(value = "/", produces = {"text/html"})	
 	public ResponseEntity < String > welcome() throws IOException, ParseException, InterruptedException, DaoException {
 		
@@ -42,39 +48,34 @@ public class CurrencyPairController {
 		return new ResponseEntity < String > ("Welcome page message", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/spiders/stop")
-	public String stopSpiders() throws IOException, ParseException, InterruptedException {
-		
-		logger.info("Stopping Currency Spider");
-		currencyRateSpiderService.stopAllSpider();
-		
-		logger.info("Spiders stopped");		
-		return "Spiders stopped";
-	}
+	/**
+	 * http://localhost:8080/rate/eur/uah/
+	 * 
+	 * @param fromCurr
+	 * @param toCurr
+	 * @return JSON with today currencyRate
+	 */
 	
-	@RequestMapping(value = "/spiders/start")
-	public String startSpiders() throws IOException, ParseException, InterruptedException, DaoException {
-		
-		logger.info("Start Currency Spider");
-		currencyRateSpiderService.startAllSpider();
-		
-		logger.info("Spiders started");
-		return "Spiders started";
-	}	
-	
-	//http://localhost:8080/rate/usd/uah/
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/")
 	public CurrencyPair currencyRateFromCurrToCurr(
 			@PathVariable String fromCurr,
 			@PathVariable String toCurr) {
 
-		logger.info("Start currencyRateFromCurrToCurr fromCurr=" + fromCurr
+		logger.info("Start user currency rate GET request fromCurr=" + fromCurr
 				+ " toCurr=" + toCurr);
 		
 		return currencyPairReaderService.getRateByCurrency(fromCurr, toCurr);
 	}
 	
-	//http://localhost:8080/rate/usd/uah/2018-02-20
+	/**
+	 * //http://localhost:8080/rate/usd/uah/2018-02-20
+	 * 
+	 * @param PathVariable fromCurr
+	 * @param PathVariable toCurr
+	 * @param PathVariable rateTime
+	 * @return JSON with currencyRate for rateTime date or less
+	 */
+	
 	@RequestMapping(value = "/rate/{fromCurr}/{toCurr}/{rateTime}/")
 	public CurrencyPair currencyRateFromCurrToCurrToDate(
 			@PathVariable String fromCurr, @PathVariable String toCurr,
@@ -85,5 +86,37 @@ public class CurrencyPairController {
 
 		return currencyPairReaderService.getRateByCurrencyToDate(fromCurr,
 				toCurr, rateTime);
+	}
+
+	/**
+	 * manually start Currency Spider
+	 * 
+	 * @return
+	 * @throws IOException, ParseException, InterruptedException, DaoException
+	 */
+	@RequestMapping(value = "/spiders/start")
+	public String startSpiders() throws IOException, ParseException, InterruptedException, DaoException {
+		
+		logger.info("Start Currency Spider");
+		currencyRateSpiderService.startAllSpider();
+		
+		logger.info("Spiders started");
+		return "Spiders started";
+	}
+
+	/**
+	 * manually stop Currency Spider
+	 * 
+	 * @return
+	 * @throws IOException, ParseException, InterruptedException
+	 */
+	@RequestMapping(value = "/spiders/stop")
+	public String stopSpiders() throws IOException, ParseException, InterruptedException {
+		
+		logger.info("Stopping Currency Spider");
+		currencyRateSpiderService.stopAllSpider();
+		
+		logger.info("Spiders stopped");		
+		return "Spiders stopped";
 	}
 }

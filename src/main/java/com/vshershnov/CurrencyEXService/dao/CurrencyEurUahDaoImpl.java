@@ -8,28 +8,40 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.stereotype.Repository;
 
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.model.CurrencyPairMapper;
 import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 
-@Repository
-public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
+/**
+ * DAO Service Implementation based on DB 
+ * and JdbcTemplate connection, statement, resultset resources  management.
+ * Used DataSource connection pool
+ * 
+ * @author vshershnov
+ *
+ */
 
-	private static final Logger logger = LoggerFactory.getLogger(CurrencyEurUahDaoImpl.class);		
+@Repository
+public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{		
 	
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
 
 	@Autowired
-	TimestampUtils timestampUtils;
+	private TimestampUtils timestampUtils;
 	
-	JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CurrencyEurUahDaoImpl.class);
 	
 	private final String SQL_FIND_RATE_BY_ID = "select * from \"EURUAH\" where id = ?";
 	private final String SQL_FIND_RATE_BY_CURRENCY_DATE = "select * from \"EURUAH\" where fromCurr = ? "
@@ -43,13 +55,12 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 	}	
 
 	@Override
-	public boolean add(CurrencyPair currency) {		
+	public void add(CurrencyPair currency) {		
 		Date date = timestampUtils.getDateForISO8601String(currency.getRateTime());
 		logger.info("Save " + currency + " to CurrencyRate.db");
-		int n = jdbcTemplate.update(SQL_INSERT_RATE, currency.getFromCurr(),
+		jdbcTemplate.update(SQL_INSERT_RATE, currency.getFromCurr(),
 				currency.getToCurr(), currency.getRate(), date,
-				currency.getSourceID());				
-		return n  > 0;
+				currency.getSourceID());
 	}
 
 	@Override
@@ -64,7 +75,10 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 
 	@Override
 	public CurrencyPair getRateByCurrency(String fromCur, String toCur) {
-		logger.info("Take Rate " + fromCur.toUpperCase() + " //" + toCur.toUpperCase() +" from CurrencyRate.db");			
+		
+		logger.info("Take Rate " + fromCur.toUpperCase() + " //" + toCur.toUpperCase() 
+				+" from CurrencyRate.db");
+		
 		CurrencyPair currency = jdbcTemplate.queryForObject(SQL_FIND_RATE_BY_CURRENCY_DATE, 
 				new Object[] {fromCur, toCur, new Date()}, new CurrencyPairMapper());
 		return currency;
@@ -75,7 +89,10 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 		
 		Date date = timestampUtils.getDateForUrlString(rateTime);
 		date = timestampUtils.setTime2359(date);
-		logger.info("Take Rate " + fromCur.toUpperCase() + "/" + toCur.toUpperCase() +" to date " + rateTime + " from CurrencyRate.db");
+		
+		logger.info("Take Rate " + fromCur.toUpperCase() + "/" + toCur.toUpperCase() +
+				" to date " + rateTime + " from CurrencyRate.db");
+		
 		CurrencyPair currency = jdbcTemplate.queryForObject(SQL_FIND_RATE_BY_CURRENCY_DATE, 
 				new Object[] {fromCur, toCur, date}, new CurrencyPairMapper());
 		return currency;
@@ -86,5 +103,5 @@ public class CurrencyEurUahDaoImpl implements CurrencyEurUahDao{
 		CurrencyPair currency = jdbcTemplate.queryForObject(SQL_FIND_RATE_BY_ID, 
 				new Object[] { id }, new CurrencyPairMapper());
 		return currency;
-	}	
+	}
 }

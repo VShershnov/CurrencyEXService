@@ -3,6 +3,7 @@ package com.vshershnov.CurrencyEXService.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -18,7 +19,7 @@ public class TimestampUtils {
 	/**
 	 * Return an ISO 8601 combined date and time string for current date/time
 	 * 
-	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
+	 * @return String with format "yyyy-MM-dd'T'HH:mm"
 	 */
 	public String getISO8601StringForCurrentDate() {
 		Date now = new Date();
@@ -29,7 +30,7 @@ public class TimestampUtils {
 	 * Return an ISO 8601 combined date and time string for specified date/time
 	 * 
 	 * @param Date date 
-	 * @return String with format "yyyy-MM-dd'T'HH:mm'Z'"
+	 * @return String with format "yyyy-MM-dd'T'HH:mm"
 	 */
 	public String getISO8601StringForDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
@@ -87,12 +88,18 @@ public class TimestampUtils {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN);
 		Date date = parser.parse(asText);
 		date.setTime(new Date().getTime());
-		return formatter.format(date); // 2017-11-01		
+		return formatter.format(date); // 2017-11-01 12:15		
 	}
 	
+	/**
+	 * Set end of day time to Date 
+	 * 
+	 * @param date
+	 * @return Date
+	 */
 	public Date setTime2359(Date date) {    
         Calendar cal = Calendar.getInstance();  
-        cal.setTime(date);  
+        cal.setTime(date); 
         cal.set(Calendar.HOUR_OF_DAY, 23);  
         cal.set(Calendar.MINUTE, 59);  
         cal.set(Calendar.SECOND, 59); 

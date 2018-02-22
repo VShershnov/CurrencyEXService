@@ -20,15 +20,17 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyRateSpiderServiceImpl.class);
 	
-	private Timer timer;
-	
 	@Autowired
 	private CurrencyEurUahDao currencyEurUahDao;
 	
 	@Autowired
-	private NBUSpider nbuSpider;		
-	
+	private NBUSpider nbuSpider;	
 
+	private Timer timer;
+
+	/**
+	 * Scheduler. Starts every 12h.
+	 */
 	@Override
 	public void startAllSpider() throws IOException, ParseException,
 			InterruptedException {
@@ -39,38 +41,23 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 				doSpiders();
 			}
 		};
-		timer.scheduleAtFixedRate(task, 0, 150 * 1000);
+		timer.scheduleAtFixedRate(task, 0, 12*60*60*1000);
 	}
 
+	/**
+	 * Scheduler manuall stopper.
+	 */
 	@Override
 	public void stopAllSpider() {
 		timer.cancel();
         timer.purge();
         logger.info("Currency Spider stopped");
-	}
-	
-	public void saveToStorage(CurrencyPair currencyPair) throws IOException {
-		if (currencyPair != null) {
-			CurrencyPair c = getCurrencyPair(currencyPair);
-			if (c == null) {
-				logger.info("To storege added NEW " + currencyPair);
-				currencyEurUahDao.add(currencyPair);
-			} else {
-				logger.info("CurrencyRate " + currencyPair + " already exist in DB");
-			}			
-		}
 	}	
 	
-	public CurrencyPair getCurrencyPair(CurrencyPair currency) {
-		if (currency != null) {
-			if (currency.getId() != null) {
-				return currencyEurUahDao.getByPK(currency.getId());
-			}
-			return getCurrencyPairByPairRateTimeSourse(currency);
-		}
-		return null;
-	}
-	
+	/**
+	 * Currency Spider Service.
+	 * Get info from public currency API and store it 
+	 */
 	private void doSpiders() {
 		CurrencyPair currencyPair;
 		try {
@@ -85,6 +72,36 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 		}
 	}
 
+	
+	private void saveToStorage(CurrencyPair currencyPair) throws IOException {
+		if (currencyPair != null) {
+			CurrencyPair c = getCurrencyPair(currencyPair);
+			if (c == null) {
+				logger.info("To storege added NEW " + currencyPair);
+				currencyEurUahDao.add(currencyPair);
+			} else {
+				logger.info("CurrencyRate " + currencyPair + " already exist in DB");
+			}			
+		}
+	}	
+	
+	/**
+	 * Check is CurrencyPair exist in Storage
+	 * 
+	 * @param currency
+	 * @return CurrencyPair
+	 */
+	private CurrencyPair getCurrencyPair(CurrencyPair currency) {
+		if (currency != null) {
+			if (currency.getId() != null) {
+				return currencyEurUahDao.getByPK(currency.getId());
+			}
+			return getCurrencyPairByPairRateTimeSourse(currency);
+		}
+		return null;
+	}
+	
+	
 	private CurrencyPair getCurrencyPairByPairRateTimeSourse(CurrencyPair currency) {
 		List<CurrencyPair> currencies = currencyEurUahDao.getAll();
 		for (CurrencyPair c : currencies) {

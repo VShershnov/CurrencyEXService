@@ -2,9 +2,12 @@ package com.vshershnov.CurrencyEXService.spider;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.math.BigDecimal;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.text.ParseException;
 import java.util.Iterator;
 
@@ -14,8 +17,19 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
+
+/**
+ * 
+ * @author vshershnov
+ *
+ * Spider Class.
+ * Get info from NBU public API.
+ * Parse multi currency JSON Array response
+ * 
+ */
 
 @Service
 public class NBUSpiderImpl implements NBUSpider {	
