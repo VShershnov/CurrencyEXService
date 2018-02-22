@@ -3,15 +3,15 @@ package com.vshershnov.CurrencyEXService.service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
-import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import com.vshershnov.CurrencyEXService.spider.NBUSpider;
 
@@ -20,7 +20,7 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurrencyRateSpiderServiceImpl.class);
 	
-	private boolean isStopped;
+	private Timer timer;
 	
 	@Autowired
 	private CurrencyEurUahDao currencyEurUahDao;
@@ -31,22 +31,25 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 
 	@Override
 	public void startAllSpider() throws IOException, ParseException,
-			InterruptedException, DaoException {
+			InterruptedException {
 		logger.info("Start Currency Spider");
-		setStopped(false);
-		//while (!isStopped) {
-			CurrencyPair currencyPair = nbuSpider.getDataFromWebSource();
-			saveToStorage(currencyPair);
-			//Thread.sleep(1000 * 60);
-		//}
-	}	
+		timer = new Timer(true);
+		TimerTask task = new TimerTask() {
+			public void run() {
+				doSpiders();
+			}
+		};
+		timer.scheduleAtFixedRate(task, 0, 15 * 1000);
+	}
 
 	@Override
 	public void stopAllSpider() {
-		setStopped(true);
+		timer.cancel();
+        timer.purge();
+        logger.info("Currency Spider stopped");
 	}
 	
-	public void saveToStorage(CurrencyPair currencyPair) throws DaoException, IOException {
+	public void saveToStorage(CurrencyPair currencyPair) throws IOException {
 		if (currencyPair != null) {
 			CurrencyPair c = getCurrencyPair(currencyPair);
 			if (c == null) {
@@ -56,23 +59,9 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 				logger.info("CurrencyRate " + currencyPair + " already exist in DB");
 			}			
 		}
-	}
-
-	/**
-	 * @return the isStopped
-	 */
-	public boolean isStopped() {
-		return isStopped;
-	}
-
-	/**
-	 * @param isStopped the isStopped to set
-	 */
-	public void setStopped(boolean isStopped) {
-		this.isStopped = isStopped;
 	}	
 	
-	public CurrencyPair getCurrencyPair(CurrencyPair currency) throws DaoException {
+	public CurrencyPair getCurrencyPair(CurrencyPair currency) {
 		if (currency != null) {
 			if (currency.getId() != null) {
 				return currencyEurUahDao.getByPK(currency.getId());
@@ -82,7 +71,21 @@ public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{
 		return null;
 	}
 	
-	private CurrencyPair getCurrencyPairByPairRateTimeSourse(CurrencyPair currency) throws DaoException {
+	private void doSpiders() {
+		CurrencyPair currencyPair;
+		try {
+			currencyPair = nbuSpider.getDataFromWebSource();
+			saveToStorage(currencyPair);
+		} catch (ParseException e) {
+			logger.error("Wrong parsing mechanism. Check currency rate sourse format");
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("Cannot read currency rate sourse. Check currency rate sourse url");
+			e.printStackTrace();
+		}
+	}
+
+	private CurrencyPair getCurrencyPairByPairRateTimeSourse(CurrencyPair currency) {
 		List<CurrencyPair> currencies = currencyEurUahDao.getAll();
 		for (CurrencyPair c : currencies) {
 			if (c.equals(currency)){
