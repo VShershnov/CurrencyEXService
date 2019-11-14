@@ -1,8 +1,8 @@
 package com.vshershnov.CurrencyEXService.service;
 
-import java.util.List;
-
 import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+
+import java.util.List;
 
 public interface CurrencyPairReaderService {	
 	

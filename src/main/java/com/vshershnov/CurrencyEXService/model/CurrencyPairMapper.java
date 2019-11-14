@@ -1,11 +1,10 @@
 package com.vshershnov.CurrencyEXService.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * 

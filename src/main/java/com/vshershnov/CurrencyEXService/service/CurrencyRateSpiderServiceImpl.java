@@ -1,19 +1,18 @@
 package com.vshershnov.CurrencyEXService.service;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.spider.NBUSpider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
-import com.vshershnov.CurrencyEXService.model.CurrencyPair;
-import com.vshershnov.CurrencyEXService.spider.NBUSpider;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Service
 public class CurrencyRateSpiderServiceImpl implements CurrencyRateSpiderService{

@@ -1,12 +1,11 @@
 package com.vshershnov.CurrencyEXService.service;
 
-import java.util.List;
-
+import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vshershnov.CurrencyEXService.dao.CurrencyEurUahDao;
-import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import java.util.List;
 
 @Service
 public class CurrencyPairReaderServiceImpl implements CurrencyPairReaderService {

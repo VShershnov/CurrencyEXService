@@ -1,8 +1,9 @@
 package com.vshershnov.CurrencyEXService;
 
-import java.io.IOException;
-import java.text.ParseException;
-
+import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
+import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vshershnov.CurrencyEXService.dao.exception.DaoException;
-import com.vshershnov.CurrencyEXService.model.CurrencyPair;
-import com.vshershnov.CurrencyEXService.service.CurrencyPairReaderService;
-import com.vshershnov.CurrencyEXService.service.CurrencyRateSpiderService;
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Handles REST GET requests for the application.

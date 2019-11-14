@@ -1,9 +1,9 @@
 package com.vshershnov.CurrencyEXService.dao;
 
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+
 import java.io.IOException;
 import java.util.List;
-
-import com.vshershnov.CurrencyEXService.model.CurrencyPair;
 
 public interface CurrencyEurUahDao {
 	

@@ -1,25 +1,20 @@
 package com.vshershnov.CurrencyEXService.spider;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.math.BigDecimal;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import java.text.ParseException;
-import java.util.Iterator;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vshershnov.CurrencyEXService.model.CurrencyPair;
+import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.vshershnov.CurrencyEXService.model.CurrencyPair;
-import com.vshershnov.CurrencyEXService.utils.TimestampUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.Iterator;
 
 /**
  * 
